@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  p Pentru a putea accesa reteaua de Internet, introduceti numarul de telefon mai jos:
+  form(method='POST' action='/login')
+    div.form-group
+      label(for='telefon') Telefon:
+      input#telefon.form-control(type='tel', placeholder='Telefon' name='telefon', required)
+    div.form-group
+      button.btn.btn-default(type='submit') Conectare
+        
