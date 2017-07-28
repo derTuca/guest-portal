@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var https = require('https');
 var zlib = require('zlib');
+var json = require("../../getJson");
 
 
 router.get('/', function(req, res, next) {
@@ -13,15 +14,15 @@ router.get('/', function(req, res, next) {
 });
 
 var login = JSON.stringify({
-    username: "KdgUbntAdmin",
-    password: "UIx6MHmkLpboehgrFow3",
+    username: json.controllerAuth.username,
+    password: json.controllerAuth.password,
     remember: false,
     strict: true
   });
 
 
 function authorizeGuest(mac) {
-    var server = "52.164.211.180";
+    var server = json.server;
     var cookie;
     var loginRequest = https.request({
         host: server,
@@ -61,7 +62,7 @@ function authorizeGuest(mac) {
             'Connection': 'keep-alive',
             'Content-Length': Buffer.byteLength(data)
           },
-          path: '/api/s/5h62c8c3/cmd/stamgr'
+          path: '/api/s/' + json.site + '/cmd/stamgr'
         }, function (secondResponse) {
           logoutFromController(server);
         });

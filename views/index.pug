@@ -3,9 +3,19 @@ extends layout
 block content
   p Pentru a putea accesa reteaua de Internet, introduceti numarul de telefon mai jos:
   form(method='POST' action='/login')
-    div.form-group
-      label(for='telefon') Telefon:
-      input#telefon.form-control(type='tel', placeholder='Telefon' name='telefon', required)
+    each value, key in fields
+      if key.login
+        if key.email
+          label(for=value)=key.displayName
+          input.form-control(type='email', placeholder=key.displayName, name=value, required, pattern=key.pattern) 
+        if key.tel
+          label(for=value)=key.displayName
+          input.form-control(type='tel', placeholder=key.displayName, name=value, required, pattern=key.pattern) 
+        else
+          label(for=value)=key.displayName
+          input.form-control(type='text', placeholder=key.displayName, name=value, required, pattern=key.pattern) 
+   
+      
     div.form-group
       button.btn.btn-default(type='submit') Conectare
         

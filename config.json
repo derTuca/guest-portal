@@ -1,0 +1,44 @@
+{
+    "server": "server_ip",
+    "site": "site_name",
+    "mongo": {
+        "server": "localhost",
+        "port": 27017,
+        "dbName": "dbname"
+    },
+    "controllerAuth": {
+        "username": "username",
+        "password": "password"
+    },
+    "fields": {
+        "firstName": {
+            "required": true,
+            "displayName": "Prenume"
+        },
+        "lastName": {
+            "required": true,
+            "displayName": "Nume"
+        },
+        "phone": {
+            "required": true,
+            "regex": "regex",
+            "displayName": "Telefon",
+            "login": true
+        },
+        "email": {
+            "required": true,
+            "email": true,
+            "displayName": "Email"
+        },
+        "company": {
+            "required": true,
+            "displayName": "Companie"
+        }
+        
+    },
+    "messages": {
+        "login": "Mesaj login",
+        "register": "Mesaj register",
+        "ty": "Mesaj multumesc"
+    }
+}
