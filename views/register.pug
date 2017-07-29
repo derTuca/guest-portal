@@ -2,34 +2,19 @@ extends layout
 
 block content
   h2 Inregistrare
-  div.alert.alert-warning(role='alert') Nu ati fost identificat in baza de date, deci va trebui sa va inregistrati.
+  div.alert.alert-warning(role='alert')=message
   form(method='POST' action='register/submit')
     each value, key in fields
       div.form-group
-        if key.email
-          label(for=value)=key.displayName
-          input.form-control(type='email', placeholder=key.displayName, name=value, required=key.required, pattern=key.pattern) 
-        if key.tel
-          label(for=value)=key.displayName
-          input.form-control(type='tel', placeholder=key.displayName, name=value, required=key.required, pattern=key.pattern) 
+        if value.email
+          label(for=key)=value.displayName
+          input.form-control(type='email', placeholder=value.displayName, name=key, required=value.required, title=value.hint, pattern=value.regex, value=autocompleteFields[key]) 
+        else if value.tel
+          label(for=key)=value.displayName
+          input.form-control(type='tel', placeholder=value.displayName, name=key, required=value.required, title=value.hint, pattern=value.regex, value=autocompleteFields[key]) 
         else
-          label(for=value)=key.displayName
-          input.form-control(type='text', placeholder=key.displayName, name=value, required=key.required, pattern=key.pattern) 
-    //- div.form-group
-    //-   label(for='nume') Nume:
-    //-   input#nume.form-control(type='text', placeholder='Nume' name='nume', required)
-    //- div.form-group
-    //-   label(for='prenume') Prenume:
-    //-   input#prenume.form-control(type='text', placeholder='Prenume' name='prenume', required)
-    //- div.form-group
-    //-   label(for='telefon') Telefon:
-    //-   input#telefon.form-control(type='tel', placeholder='Telefon' name='telefon', required, value=telefon)
-    //- div.form-group
-    //-   label(for='email') Email:
-    //-   input#email.form-control(type='email', placeholder='Email' name='email', required)
-    //- div.form-group
-    //-   label(for='companie') Companie:
-    //-   input#companie.form-control(type='text', placeholder='Companie' name='companie', required)
+          label(for=key)=value.displayName
+          input.form-control(type='text', placeholder=value.displayName, name=key, required=value.required, title=value.hint, pattern=value.regex, value=autocompleteFields[key]) 
     div.form-group
       button.btn.btn-default(type='submit') Conectare
         

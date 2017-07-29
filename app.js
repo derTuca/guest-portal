@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var json = require("getJson");
+var json = require('./getJson');
 
 
 var index = require('./routes/index');

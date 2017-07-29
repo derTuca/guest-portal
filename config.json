@@ -21,9 +21,11 @@
         },
         "phone": {
             "required": true,
-            "regex": "regex",
+            "regex": "\\d{3, 13}",
             "displayName": "Telefon",
-            "login": true
+            "login": true,
+            "tel": true,
+            "hint": "0777777777"
         },
         "email": {
             "required": true,
@@ -39,6 +41,6 @@
     "messages": {
         "login": "Mesaj login",
         "register": "Mesaj register",
-        "ty": "Mesaj multumesc"
+        "multumesc": "Mesaj multumesc"
     }
 }

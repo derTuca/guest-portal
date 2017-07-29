@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-readJsonFileSync(filepath, encoding) {
+function readJsonFileSync(filepath, encoding) {
   if(typeof(encoding) == 'undefined') encoding = 'utf8';
   return JSON.parse(fs.readFileSync(filepath, encoding));
 }

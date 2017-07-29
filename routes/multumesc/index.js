@@ -6,7 +6,7 @@ var json = require("../../getJson");
 
 
 router.get('/', function(req, res, next) {
-  res.render('multumesc');
+  res.render('multumesc', { message: json.messages.multumesc });
   var link = req.session.url;
   var addrMac = link.split('id=')[1].substring(0, 17);
   req.session.url = null;
