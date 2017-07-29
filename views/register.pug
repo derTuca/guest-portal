@@ -12,6 +12,9 @@ block content
         else if value.tel
           label(for=key)=value.displayName
           input.form-control(type='tel', placeholder=value.displayName, name=key, required=value.required, title=value.hint, pattern=value.regex, value=autocompleteFields[key]) 
+        else if value.password
+          label(for=key)=value.displayName
+          input.form-control(type='password', placeholder=value.displayName, name=key, required=value.required, title=value.hint, pattern=value.regex, value=autocompleteFields[key])
         else
           label(for=key)=value.displayName
           input.form-control(type='text', placeholder=value.displayName, name=key, required=value.required, title=value.hint, pattern=value.regex, value=autocompleteFields[key]) 

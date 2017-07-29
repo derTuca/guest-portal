@@ -34,6 +34,7 @@ THe fields are defined as objects inside the `fields` object of `config.json`. T
 * `required`  (boolean) defines whether the field is required or not
 * `email` (boolean) defines whether the field is for an email address
 * `tel` (boolean) defines whether the field is for a phone number
+* `password` (boolean) defines whether the field is for a password
 * `login` (boolean) defines whether the field should be shown on the login page and used to check if the user is already registered
 * `regex` (string) a regex pattern to validate the field
 * `hint` (string) a message to be shown to the user when the input does not match the regex rule
