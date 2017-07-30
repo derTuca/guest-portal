@@ -8,8 +8,8 @@ var json = require("../../getJson");
 
 router.get('/', function (req, res, next) {
   res.render('multumesc', { message: json.messages.multumesc });
-  var link = req.session.url;
-  var addrMac = link.split('id=')[1].substring(0, 17);
+  let link = req.session.url;
+  let addrMac = link.split('id=')[1].substring(0, 17);
   req.session.url = null;
   beginAuthorizeProcess(addrMac);
 });
@@ -40,10 +40,10 @@ function beginAuthorizeProcess(mac) {
       'Connection': 'keep-alive',
     },
     path: '/api/login'
-  }, function (response) {
-    let cookie = response.headers["set-cookie"][0].split(' ')[0];
-    var token = response.headers["set-cookie"][1].split(' ')[0].split(';')[0];
-    var finalCookie = cookie + " " + token;
+  }, function (loginResponse) {
+    let cookie = loginResponse.headers["set-cookie"][0].split(' ')[0];
+    let token = loginResponse.headers["set-cookie"][1].split(' ')[0].split(';')[0];
+    let finalCookie = cookie + " " + token;
     if (json.site.id == null) {
       let cachedId = mcache.get('siteId');
       if (cachedId) authorizeDevice(cachedId, mac, token, finalCookie);
@@ -60,14 +60,24 @@ function beginAuthorizeProcess(mac) {
             'Connection': 'keep-alive'
           },
           path: '/api/stat/sites'
-        }, function (response) {
-          var id = "";
-          response.data.forEach(function (element) {
-            if (element.desc == json.site.name) id = element.name;
-          }, this);
-          if (id === "") console.error("No site has been found with the specified name");
-          mcache.put('siteId', id);
-          authorizeDevice(id, mac, token, finalCookie);
+        }, function (sitesResponse) {
+          var data = [];
+          let gunzip = zlib.createGunzip();
+          sitesResponse.pipe(gunzip);
+          gunzip.on('data', function (chunk) {
+            data.push(chunk);
+          });
+          gunzip.on('end', function () {
+            let decompressedData = Buffer.concat(data);
+            var id = "";
+            decompressedData.data.forEach(function (element) {
+              if (element.desc == json.site.name) id = element.name;
+            }, this);
+            if (id === "") console.error("No site has been found with the specified name");
+            mcache.put('siteId', id);
+            authorizeDevice(id, mac, token, finalCookie);
+          });
+
         });
       }
 
@@ -81,11 +91,11 @@ function beginAuthorizeProcess(mac) {
 }
 
 function authorizeDevice(site, mac, token, finalCookie) {
-  var data = JSON.stringify({
+  let data = JSON.stringify({
     "mac": mac,
     "cmd": "authorize-guest"
   });
-  var authDeviceRequest = https.request({
+  let authDeviceRequest = https.request({
     host: server,
     rejectUnauthorized: false,
     method: 'POST',
@@ -100,7 +110,7 @@ function authorizeDevice(site, mac, token, finalCookie) {
       'Content-Length': Buffer.byteLength(data)
     },
     path: '/api/s/' + site + '/cmd/stamgr'
-  }, function (secondResponse) {
+  }, function (authResponse) {
     logoutFromController(server);
   });
   authDeviceRequest.write(data);
@@ -108,14 +118,12 @@ function authorizeDevice(site, mac, token, finalCookie) {
 }
 
 function logoutFromController(server) {
-  var logoutRequest = https.request({
+  let logoutRequest = https.request({
     host: server,
     port: 8443,
     rejectUnauthorized: false,
     path: '/logout',
     method: 'GET'
-  }, function (finalResponse) {
-
   });
   logoutRequest.end();
 }

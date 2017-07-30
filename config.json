@@ -1,8 +1,8 @@
 {
-    "server": "server_ip",
+    "server": "192.168.0.241",
     "site": {
-        "id": "id",
-        "name": "name"
+        "id": "",
+        "name": "Default"
     },
     "mongo": {
         "server": "localhost",
@@ -10,10 +10,16 @@
         "dbName": "dbname"
     },
     "controllerAuth": {
-        "username": "username",
-        "password": "password"
+        "username": "admin",
+        "password": "Pass/123.-"
     },
     "fields": {
+        "password": {
+            "required": true,
+            "displayName": "Parola",
+            "password": true,
+            "login": true  
+        },
         "firstName": {
             "required": true,
             "displayName": "Prenume"
