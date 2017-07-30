@@ -27,6 +27,13 @@ The `config.json` file is used in order to configure the app. Here you can enter
 * The fields you want to store in the database
 * The messages you want to show on the login, register and final page
 
+Site selection
+--------------
+There are two ways to select the site you want to use. You can either
+* use the site id, which you can find by analyzing the network requests sent by the controller to the `/api/stat/sites` endpoint, OR
+* use the site name (easier, but slower at first access since it has to look up the id - the server caches it for faster access in future requests, though)
+Either can be specified as an object in the `site` object. By default the server will look for the id, and if it is not specified, it will fallback to using the name.
+
 Fields
 ------
 THe fields are defined as objects inside the `fields` object of `config.json`. The key represents the string by which the value is stored in the database, and the value is an object with the following properties:

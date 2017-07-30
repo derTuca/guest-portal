@@ -1,6 +1,9 @@
 {
     "server": "server_ip",
-    "site": "site_name",
+    "site": {
+        "id": "id",
+        "name": "name"
+    },
     "mongo": {
         "server": "localhost",
         "port": 27017,
