@@ -7,7 +7,7 @@ var json = require("../../getJson");
 
 
 router.get('/', function (req, res, next) {
-  res.render('multumesc', { message: json.messages.multumesc });
+  res.render('multumesc', { title: json.title, message: json.messages.multumesc });
   let link = req.session.url;
   let addrMac = link.split('id=')[1].substring(0, 17);
   req.session.url = null;
@@ -59,21 +59,18 @@ function beginAuthorizeProcess(mac) {
             'Cookie': finalCookie,
             'Connection': 'keep-alive'
           },
-          path: '/api/stat/sites'
+          path: '/api/stat/sites',
+          encoding: null
         }, function (sitesResponse) {
           var data = [];
           let gunzip = zlib.createGunzip();
           sitesResponse.pipe(gunzip);
-          gunzip.on('data', function (chunk) {
-            data.push(chunk);
-          });
-          gunzip.on('end', function () {
-            let decompressedData = Buffer.concat(data);
+          gunzip.on('data', chunk => data.push(chunk));
+          gunzip.on('end', () => {
+            let decompressedData = Buffer.concat(data).toJSON();
             var id = "";
-            decompressedData.data.forEach(function (element) {
-              if (element.desc == json.site.name) id = element.name;
-            }, this);
-            if (id === "") console.error("No site has been found with the specified name");
+            decompressedData.data.forEach(element => id = element.desc === json.site.name ? element.name : id);
+            if (id === "") throw("No site has been found with the specified name");
             mcache.put('siteId', id);
             authorizeDevice(id, mac, token, finalCookie);
           });
@@ -110,9 +107,7 @@ function authorizeDevice(site, mac, token, finalCookie) {
       'Content-Length': Buffer.byteLength(data)
     },
     path: '/api/s/' + site + '/cmd/stamgr'
-  }, function (authResponse) {
-    logoutFromController(server);
-  });
+  }, (authResponse) => logoutFromController(server));
   authDeviceRequest.write(data);
   authDeviceRequest.end();
 }

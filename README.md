@@ -26,6 +26,7 @@ The `config.json` file is used in order to configure the app. Here you can enter
 * MongoDB server, port and credentials
 * The fields you want to store in the database
 * The messages you want to show on the login, register and final page
+* The title you want to be shown in the top bar
 
 Site selection
 --------------

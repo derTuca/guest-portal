@@ -51,5 +51,6 @@
         "login": "Mesaj login",
         "register": "Mesaj register",
         "multumesc": "Mesaj multumesc"
-    }
+    },
+    "title": "Titlu"
 }
